@@ -1,0 +1,27 @@
+***********Optimisation***************
+
+FollowSymLinks et SymLinksIfOwnerMatch : -FollowSymLinks +SymLinksIfOwnerMatch
+AllowOverride : None
+Transfert en mémoire  : EnableMMAP off
+Sendfile  : EnableSendfile off
+Process Creation : MinSpareServers,MaxSpareServers,StartServers,startServers
+Choisir un Module Multi-Processus (MPM) : Install mpm event
+MaxRequestWorkers : MaxRequestWorkers with top
+Modules  : 
+Opérations atomiques : ???
+Augmenter le nombre de processus/threads enfants  :  MaxClients
+Activer la fonction KeepAlive  : KeepAlive On , KeepAliveTimeout 5,MaxKeepAliveRequests 100
+Activer Mise en cache : ???
+Compression
+
+
+***********Securisartion*******************
+
+Masquer les détails du serveur web : ServerSignature Off,ServerTokens Prod,expose_php = Off
+
+Renforcer la sécurité dans les VirtualHosts : # Bloquer le détournement de clic (clickjacking) ,Header always set X-Frame-Options DENY # Bloquer le changement des types MIME , Header always set X-Content-Type-Options nosniff
+Renforcer la sécurité en HTTPS : Timeout 60 , ServerLimit 64
+Se protéger contre les attaques DoS : 
+Utiliser le module mod_security
+Disable Requête HTTP de suivi :  TraceEnable off
+Exécuter séparémentate Utilisateurs et groupes
