@@ -1,0 +1,40 @@
+
+Profil: modere
+Options: +FollowSymLinks -Indexes
+HostnameLookups: Off
+AllowOverride: None
+EnableMMAP: Off
+EnableSendfile: On
+Modules:
+  mpm: prefork
+  mod_cache: False
+  mod_reqtimeout: True
+  mod_atomic: False
+  mod_deflate: True
+MPM_Modules:
+  StartServers: 4
+  MinSpareThreads: 20
+  MaxSpareThreads: 40
+  ThreadLimit: 
+  ThreadsPerChild: 
+  MaxConnectionsPerChild: 4500
+  MaxRequestWorkers: 200
+  ServerLimit: 
+KeepAlive:
+  enabled: Off
+  timeout: 15
+  max_requests: 50
+Server:
+  ServerSignature: Off
+  ServerTokens: Prod
+  Timeout: 60
+  TraceEnable: On
+Security:
+  SSLProtocol: all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
+  SSLCipherSuite: HIGH:3DES:!aNULL:!MD5:!SEED:!IDEA
+  SSLHonorCipherOrder: on
+  StrictTransportSecurity: Header always set Strict-Transport-Security max-age=15552000; includeSubDomains
+  expose_php: Off
+Rules: 
+  XFrameOptions: Header always set X-Frame-Options DENY
+  XContentTypeOptions: Header always set X-Content-Type-Options nosniff
