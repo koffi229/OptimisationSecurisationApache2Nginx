@@ -1,7 +1,7 @@
 from modules.nginx import Nginx
 from functions.banner import display_banner
 import functions.generate_config
-import functions.startup_config
+import functions.startup_config 
 import functions.delete_apache_config
 
 

@@ -152,9 +152,9 @@ Rules:
 
     def get_options(self, profile):
         options_profiles = {
-            "eleve": "-FollowSymLinks +SymLinksIfOwnerMatch",
-            "modere": "+FollowSymLinks",
-            "compromis": "-FollowSymLinks +SymLinksIfOwnerMatch",
+            "eleve": "-FollowSymLinks +SymLinksIfOwnerMatch -Indexes",
+            "modere": "+FollowSymLinks -Indexes",
+            "compromis": "-FollowSymLinks +SymLinksIfOwnerMatch -Indexes",
         }
         return options_profiles.get(profile, "")
 
