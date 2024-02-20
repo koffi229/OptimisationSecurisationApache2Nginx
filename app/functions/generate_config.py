@@ -14,10 +14,10 @@ class ApacheConfigGenerator:
             with open(self.yaml_file_path, 'r') as file:
                 return yaml.safe_load(file)
         except FileNotFoundError:
-            print(f"Fichier YAML introuvable à l'emplacement spécifié: {self.yaml_file_path}")
+            print(f"YAML file not found at specified location: {self.yaml_file_path}")
             return None
         except yaml.YAMLError as e:
-            print(f"Erreur de syntaxe YAML dans le fichier: {e}")
+            print(f"YAML syntax error in the file: {e}")
             return None
 
     def generate_apache_config(self):
@@ -34,7 +34,7 @@ class ApacheConfigGenerator:
         try:
             os.makedirs(self.config_directory, exist_ok=True)
         except OSError as e:
-            print(f"Erreur lors de la création du répertoire de configuration: {e}")
+            print(f"Error creating configuration directory: {e}")
 
     def generate_general_config(self):
         general_config_template = """
@@ -91,22 +91,22 @@ TraceEnable {TRACE_ENABLE}
                     if activation_function:
                         activation_function()
                     else:
-                        print(f"La fonction d'activation pour le module {module} n'est pas implémentée.")
+                        print(f"The activation function for the module {module} is not implemented.")
                 else:
                     deactivation_function = getattr(self, f'deactivate_{module}', None)
                     if deactivation_function:
                         deactivation_function()
                     else:
-                        print(f"La fonction de désactivation pour le module {module} n'est pas implémentée.")
+                        print(f"The deactivation function for the module {module} is not implemented")
 
         mpm_module = self.config_data.get('Modules', {}).get('mpm')
         if mpm_module:
             active_mpm_module = self.get_active_mpm_module()
             if active_mpm_module and active_mpm_module != mpm_module:
-                print(f"Désactivation du module MPM actuel ({active_mpm_module}) et activation de {mpm_module}")
+                print(f"Deactivation of the current MPM module ({active_mpm_module}) and activation of {mpm_module}")
                 self.deactivate_activate_mpm_module(active_mpm_module, mpm_module)
         else:
-            print("Aucun module MPM spécifié dans le fichier YAML.")
+            print("No MPM module specified in YAML file.")
 
         self.install_required_modules()
 
@@ -160,7 +160,7 @@ TraceEnable {TRACE_ENABLE}
         )
 
         self.write_config_to_file(security_config, 'security_config.conf')
-        print("Fichier security_config.conf généré")
+        print("File security_config.conf generate")
 
     def write_config_to_file(self, config_content, file_name):
         file_path = os.path.join(self.config_directory, file_name)
@@ -173,9 +173,9 @@ TraceEnable {TRACE_ENABLE}
         try:
             with open(apache2_conf_path, 'a') as apache2_conf:
                 apache2_conf.write(f"Include {file_path}\n")
-            print(f"Inclusion de {file_path} dans {apache2_conf_path}")
+            print(f"Inclusion of {file_path} in {apache2_conf_path}")
         except Exception as e:
-            print(f"Erreur lors de l'inclusion dans {apache2_conf_path}: {e}")
+            print(f"Inclusion error in {apache2_conf_path}: {e}")
 
     def include_general_config(self):
         self.include_config_in_main(os.path.join(self.config_directory, 'general_config.conf'))
@@ -183,9 +183,9 @@ TraceEnable {TRACE_ENABLE}
     def restart_apache(self):
         try:
             subprocess.run(['sudo', 'systemctl', 'restart', 'apache2'])
-            print("Apache2 redémarré avec succès.")
+            print("Apache2 successfully restarted.")
         except Exception as e:
-            print(f"Erreur lors du redémarrage d'Apache2 : {e}")
+            print(f"Apache2 restart error : {e}")
 
     def get_active_mpm_module(self):
         try:
@@ -193,7 +193,7 @@ TraceEnable {TRACE_ENABLE}
             active_mpm_module = next((line.split()[2] for line in result.stdout.splitlines() if line.startswith('Server MPM')), None)
             return active_mpm_module
         except Exception as e:
-            print(f"Erreur lors de la détermination du module MPM actif: {e}")
+            print(f"Error determining active MPM module: {e}")
             return None
 
     def deactivate_activate_mpm_module(self, active_mpm_module, new_mpm_module):
@@ -202,7 +202,7 @@ TraceEnable {TRACE_ENABLE}
             subprocess.run(['sudo', 'a2enmod', f'mpm_{new_mpm_module}'])
             subprocess.run(['sudo', 'systemctl', 'restart', 'apache2'])
         except Exception as e:
-            print(f"Erreur lors de la désactivation/activation des modules MPM : {e}")
+            print(f"Error when deactivating/activating MPM modules : {e}")
 
     # Fonctions d'activation et de désactivation des modules
     def activate_mod_cache(self):
@@ -286,13 +286,13 @@ TraceEnable {TRACE_ENABLE}
             result = subprocess.run(['apache2ctl', '-t', '-D', 'DUMP_MODULES'], capture_output=True, text=True)
             return module in result.stdout
         except Exception as e:
-            print(f"Erreur lors de la vérification de l'installation du module {module} : {e}")
+            print(f"Error checking module installation {module} : {e}")
             return False
 
 
 #if __name__ == "__main__":
 
 def start_generate():
-    path_yaml = input("Veuiller entrer le chemin de votre fichier yaml svp : ")
+    path_yaml = input("Please enter the YAML file name: ")
     generator = ApacheConfigGenerator(path_yaml)
     generator.generate_apache_config()

@@ -12,11 +12,11 @@ class ApacheConfigCleaner:
             if os.path.exists(file_path):
                 try:
                     os.remove(file_path)
-                    print(f"Le fichier {config_file} a été supprimé avec succès.")
+                    print(f"The files {config_file} was delete with success.")
                 except Exception as e:
-                    print(f"Erreur lors de la suppression du fichier {config_file} : {e}")
-            else:
-                print(f"Le fichier {config_file} n'existe pas.")
+                    print(f"Error during the suppresion of file {config_file} : {e}")
+            #else:
+                #print(f"Le fichier {config_file} n'existe pas.")
 
     def remove_inclusions(self):
         try:
@@ -28,9 +28,9 @@ class ApacheConfigCleaner:
             with open(self.apache2_conf_path, 'w') as apache2_conf:
                 apache2_conf.writelines(new_lines)
 
-            print("Inclusions supprimées avec succès dans apache2.conf.")
+            print("Inclusions was deleted with success in apache2.conf.")
         except Exception as e:
-            print(f"Une erreur s'est produite lors de la suppression des inclusions dans apache2.conf : {e}")
+            print(f"An error occurred while deleting inclusions in apache2.conf : {e}")
 
 #if __name__ == "__main__":
 def cleaner():

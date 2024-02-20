@@ -9,16 +9,16 @@ display_banner()
 print("Bienvenue")
 
 try:
-    option = input("1 - Generer un template de configuration yaml systeme \n2 - Generer une configuration a partir d'un template\n(Choississez entre (1 et 2)) ")
+    option = input("1 - Genererate a template of configuration for the web Server \n2 - Genererate a configuration from yaml template\n(Please choose between (1 et 2)) ")
     if option == "1" :
         functions.startup_config.make_config()
     if option == "2" :
-        resp = input("Aviez vous déjà appliqué un template auparavent ? (oui/non)")
-        if resp == 'oui':
+        #resp = input("Aviez vous déjà appliqué un template auparavent ? (oui/non)")
+        #if resp == 'oui':
             functions.delete_apache_config.cleaner()
             functions.generate_config.start_generate()
-        if resp == 'non':
-            functions.generate_config.start_generate()
+        #if resp == 'non':
+            #functions.generate_config.start_generate()
 except Exception as e:
     print(f"Une erreur s'est produite {e}")
 
