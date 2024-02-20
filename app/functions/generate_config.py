@@ -25,7 +25,7 @@ class ApacheConfigGenerator:
             self.create_config_directory()
             self.generate_general_config()
             self.generate_module_config()
-            self.generate_php_config()
+            #self.generate_php_config()
             self.generate_security_config()
             self.restart_apache()
             self.include_general_config()
@@ -38,25 +38,48 @@ class ApacheConfigGenerator:
 
     def generate_general_config(self):
         general_config_template = """
-Options {OPTIONS}
-HostnameLookups {HOSTNAMELOOKUPS}
-AllowOverride {ALLOWOVERRIDE}
+<Directory /var/www/>
+    Options {OPTIONS}
+    HostnameLookups {HOSTNAMELOOKUPS}
+    AllowOverride {ALLOWOVERRIDE}
+</Directory>
+
 EnableMMAP {ENABLEMMAP}
 EnableSendfile {ENABLESENDFILE}
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
 </IfModule>
+
+KeepAlive {KEEPALIVE_ENABLED}
+KeepAliveTimeout {KEEPALIVE_TIMEOUT}
+MaxKeepAliveRequests {KEEPALIVE_MAX_REQUESTS}
+
+ServerSignature {SERVER_SIGNATURE}
+ServerTokens {SERVER_TOKENS}
+Timeout {TIMEOUT}
+TraceEnable {TRACE_ENABLE}
 """
 
-        config_values = {key.upper(): self.config_data.get(key, 'DEFAULT_VALUE') for key in ['Options', 'HostnameLookups', 'AllowOverride', 'EnableMMAP', 'EnableSendfile']}
-        
-        general_config = general_config_template.format(**config_values)
+        # Replace placeholders in the template with the retrieved values from the YAML file
+        general_config = general_config_template.format(
+            OPTIONS=self.config_data.get('Options', 'DEFAULT_VALUE'),
+            HOSTNAMELOOKUPS=self.config_data.get('HostnameLookups', 'DEFAULT_VALUE'),
+            ALLOWOVERRIDE=self.config_data.get('AllowOverride', 'DEFAULT_VALUE'),
+            ENABLEMMAP=self.config_data.get('EnableMMAP', 'DEFAULT_VALUE'),
+            ENABLESENDFILE=self.config_data.get('EnableSendfile', 'DEFAULT_VALUE'),
+            KEEPALIVE_ENABLED=self.config_data.get('KeepAlive', {}).get('enabled', 'DEFAULT_VALUE'),
+            KEEPALIVE_TIMEOUT=self.config_data.get('KeepAlive', {}).get('timeout', 'DEFAULT_VALUE'),
+            KEEPALIVE_MAX_REQUESTS=self.config_data.get('KeepAlive', {}).get('max_requests', 'DEFAULT_VALUE'),
+            SERVER_SIGNATURE=self.config_data.get('Server', {}).get('ServerSignature', 'DEFAULT_VALUE'),
+            SERVER_TOKENS=self.config_data.get('Server', {}).get('ServerTokens', 'DEFAULT_VALUE'),
+            TIMEOUT=self.config_data.get('KeepAlive', {}).get('timeout', 'DEFAULT_VALUE'),
+            TRACE_ENABLE=self.config_data.get('Server', {}).get('TraceEnable', 'DEFAULT_VALUE')
+        )
 
         with open(os.path.join(self.config_directory, 'general_config.conf'), 'w') as file:
             file.write(general_config)
-
-        print("Fichier general_config.conf généré")
+            print("Fichier general_config.conf généré")
 
     def generate_module_config(self):
         modules = self.config_data.get('Modules', {})
@@ -106,17 +129,17 @@ EnableSendfile {ENABLESENDFILE}
         self.write_config_to_file(mpm_config, 'mpm_config.conf')
         print("Fichier mpm_config.conf généré")
 
-    def generate_php_config(self):
-        php_config_template = """
-expose_php {expose_php}
-"""
+    #def generate_php_config(self):
+        #php_config_template = """
+#expose_php {expose_php}
+#"""
 
-        php_config = php_config_template.format(expose_php=self.config_data.get('PHP', {}).get('expose_php', 'Off'))
+ #       php_config = php_config_template.format(expose_php=self.config_data.get('PHP', {}).get('expose_php', 'Off'))
 
-        with open(os.path.join(self.config_directory, 'php_config.conf'), 'w') as file:
-            file.write(php_config)
+ #       with open(os.path.join(self.config_directory, 'php_config.conf'), 'w') as file:
+ #           file.write(php_config)
 
-        print("Fichier php_config.conf généré")
+ #       print("Fichier php_config.conf généré")
 
     def generate_security_config(self):
         security_config = """

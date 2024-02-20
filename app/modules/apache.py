@@ -38,7 +38,6 @@ KeepAlive:
 Server:
   ServerSignature: {ServerSignature}
   ServerTokens: {ServerTokens}
-  Timeout: {Timeout}
   TraceEnable: {TraceEnable}
 Security:
   SSLProtocol: {SSLProtocol}
@@ -84,7 +83,7 @@ Rules:
             MaxKeepAliveRequests=f"{self.get_max_keep_alive_requests(profile)}",
             ServerSignature=f"{self.get_server_signature(profile)}",
             ServerTokens=f"{self.get_server_tokens(profile)}",
-            Timeout=f"{self.get_timeout(profile)}",
+            #Timeout=f"{self.get_timeout(profile)}",
             TraceEnable=f"{self.get_trace_enable(profile)}",
             #################################################
             SSLProtocol=f"{self.get_ssl_protocol(profile)}",
@@ -220,12 +219,12 @@ Rules:
     def get_server_tokens(self, profile):
         return "Prod"
 
-    def get_timeout(self, profile):
-        timeout_profiles = {
-            "eleve": "60",
-            "modere": "60",
-            "compromis": "45",
-        }
+    #def get_timeout(self, profile):
+     #   timeout_profiles = {
+      #      "eleve": "60",
+       #     "modere": "60",
+        #    "compromis": "45",
+        #}
         return timeout_profiles.get(profile, "")
 
     def get_trace_enable(self, profile):

@@ -6,7 +6,7 @@ class ApacheConfigCleaner:
         self.apache2_conf_path = apache2_conf_path
 
     def remove_configs(self):
-        config_files = ['mpm_config.conf', 'php_config.conf', 'security_config.conf', 'general_config.conf']
+        config_files = ['mpm_config.conf', 'security_config.conf', 'general_config.conf']
         for config_file in config_files:
             file_path = os.path.join(self.config_directory, config_file)
             if os.path.exists(file_path):
@@ -23,7 +23,7 @@ class ApacheConfigCleaner:
             with open(self.apache2_conf_path, 'r') as apache2_conf:
                 lines = apache2_conf.readlines()
 
-            new_lines = [line for line in lines if not any(file_name in line for file_name in ['mpm_config.conf', 'php_config.conf', 'security_config.conf', 'general_config.conf'])]
+            new_lines = [line for line in lines if not any(file_name in line for file_name in ['mpm_config.conf', 'security_config.conf', 'general_config.conf'])]
 
             with open(self.apache2_conf_path, 'w') as apache2_conf:
                 apache2_conf.writelines(new_lines)
