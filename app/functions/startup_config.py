@@ -2,16 +2,16 @@ import modules.apache
 
 def make_config():
     try:
-        choice = input("Veuillez choisir le service Web à configurer :\n1 - Apache2\n2 - Nginx\n")
+        choice = input("Please select the web service to be configured :\n1 - Apache2\n2 - Nginx\n")
         while choice not in ['1', '2']:
-            choice = input("Choix non valide. Veuillez choisir entre '1' et '2'.\n")
+            choice = input("Invalid choice. Please choose between '1' and '2.\n")
         config = None
         if(choice == '1'):
             modules.apache.start()
         elif(choice == '2'):
             pass
 
-        print("Configuration terminée.")
+        print("Configuration complete.")
 
     except Exception as e:
-        print(f"Une erreur s'est produite : {e}. Veuillez réessayer s'il vous plaît.")
+        print(f"An error has occurred: {e}. Please try again.")

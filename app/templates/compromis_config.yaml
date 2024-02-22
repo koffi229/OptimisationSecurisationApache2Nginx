@@ -1,0 +1,39 @@
+
+Profil: compromis
+Options: -FollowSymLinks +SymLinksIfOwnerMatch -Indexes
+HostnameLookups: Off
+AllowOverride: None
+EnableMMAP: Off
+EnableSendfile: On
+Modules:
+  mpm: worker
+  mod_cache: True
+  mod_reqtimeout: True
+  mod_atomic: True
+  mod_deflate: True
+MPM_Modules:
+  StartServers: 4
+  MinSpareThreads: 25
+  MaxSpareThreads: 75
+  ThreadLimit: 64
+  ThreadsPerChild: 25
+  MaxConnectionsPerChild: 1000
+  MaxRequestWorkers: 100
+  ServerLimit: 32
+KeepAlive:
+  enabled: On
+  timeout: 10
+  max_requests: 75
+Server:
+  ServerSignature: Off
+  ServerTokens: Prod
+  TraceEnable: Off
+Security:
+  SSLProtocol: all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
+  SSLCipherSuite: HIGH:3DES:!aNULL:!MD5:!SEED:!IDEA
+  SSLHonorCipherOrder: on
+  StrictTransportSecurity: Header always set Strict-Transport-Security max-age=15552000; includeSubDomains
+  expose_php: Off
+Rules: 
+  XFrameOptions: Header always set X-Frame-Options DENY
+  XContentTypeOptions: Header always set X-Content-Type-Options nosniff

@@ -25,3 +25,19 @@ Se protéger contre les attaques DoS :
 Utiliser le module mod_security
 Disable Requête HTTP de suivi :  TraceEnable off
 Exécuter séparémentate Utilisateurs et groupes
+
+
+
+<Directory /var/www/>
+    Options +FollowSymLinks -Indexes
+    HostnameLookups Off
+    AllowOverride None
+</Directory>
+
+EnableMMAP Off
+EnableSendfile On
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+</IfModule>
+
