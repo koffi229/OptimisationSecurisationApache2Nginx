@@ -19,7 +19,40 @@ class ApacheConfigGenerator:
         except yaml.YAMLError as e:
             print(f"YAML syntax error in the file: {e}")
             return None
+###################################################################################
+        
+    def display_and_modify_config(self):
+        if self.config_data:
+            print("Current configuration:")
+            for section, section_data in self.config_data.items():
+                print(f"\n[{section}]")
+                if isinstance(section_data, dict):
+                    for key, value in section_data.items():
+                        print(f"{key}: {value}")
+                        while True:
+                            modify = input("Would you like to modify this value? (y/n): ").lower()
+                            if modify in ['y', 'n']:
+                                break
+                            else:
+                                print("Invalid input. Please enter 'y' or 'n'.")
+                        if modify == 'y':
+                            new_value = input(f"Enter new value for {key}: ")
+                            self.config_data[section][key] = new_value
+                else:
+                    print(f"{section}: {section_data}")
+                    while True:
+                        modify = input("Would you like to modify this value? (y/n): ").lower()
+                        if modify in ['y', 'n']:
+                            break
+                        else:
+                            print("Invalid input. Please enter 'y' or 'n'.")
+                    if modify == 'y':
+                        new_value = input(f"Enter new value for {section}: ")
+                        self.config_data[section] = new_value
 
+
+
+###################################################################################
     def generate_apache_config(self):
         if self.config_data:
             self.create_config_directory()
@@ -295,4 +328,14 @@ TraceEnable {TRACE_ENABLE}
 def start_generate():
     path_yaml = input("Please enter the YAML file name: ")
     generator = ApacheConfigGenerator(path_yaml)
-    generator.generate_apache_config()
+    choice = input("Would you want manage the value of the template (y/n) :\nNB : The option is for confirmate administrator, so keep attention for don't broke your system ")
+    try:
+        if choice == "y": 
+            generator.display_and_modify_config()
+            generator.generate_apache_config()
+        elif choice == "n":
+            generator.generate_apache_config()
+    except Exception as e : 
+        print(f"Une erreur est survenue {e}")
+    
+
