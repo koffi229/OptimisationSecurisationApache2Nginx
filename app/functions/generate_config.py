@@ -258,6 +258,25 @@ TraceEnable {TRACE_ENABLE}
 
     def activate_mod_deflate(self):
         self.activate_module('deflate')
+            # Code à ajouter pour écrire dans general_config.conf
+        config_snippet = """
+    <IfModule mod_deflate.c>
+        <IfModule mod_filter.c>
+            AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+            AddOutputFilterByType DEFLATE application/x-javascript application/javascript application/ecmascript
+            AddOutputFilterByType DEFLATE application/rss+xml
+            AddOutputFilterByType DEFLATE application/xml
+
+            # j'ai ici ajouté le type MIME du svg et du json
+            AddOutputFilterByType DEFLATE image/svg+xml
+            AddOutputFilterByType DEFLATE application/json
+        </IfModule>
+    </IfModule>
+    """
+
+        # Écriture dans le fichier general_config.conf
+        with open(os.path.join(self.config_directory, 'general_config.conf'), 'a') as file:
+            file.write(config_snippet)
 
     def deactivate_mod_deflate(self):
         self.deactivate_module('deflate')

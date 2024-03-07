@@ -28,6 +28,15 @@ def uninstall_apache2():
     display_phase("Uninstalling Apache2")
     duration = execute_command("sudo apt-get purge apache2 -y > /dev/null 2>&1")
     execute_command("sudo apt-get autoremove -y > /dev/null 2>&1")
+    
+    # Removing remaining directories related to Apache2
+    output = os.popen("whereis apache2").read()
+    directories = output.split(':')[1].split()
+    for directory in directories:
+        if os.path.exists(directory):
+            print(f"Removing directory: {directory}")
+            os.system(f"sudo rm -rf {directory}")
+
     continuous_animation(["□", "■"], duration)
 
 def install_apache2():
