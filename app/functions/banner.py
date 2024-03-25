@@ -10,7 +10,7 @@ def display_banner():
 \    Y    /\  ___/  |  | \/\  \___ |  |  /|  |__\  ___/ 
  \___|_  /  \___  > |__|    \___  >|____/ |____/ \___  >
        \/       \/              \/                   \/                                        
-{Fore.YELLOW}         Outil d'Optimisation et de Sécurisation Apache2
+{Fore.YELLOW}         Outil d'Optimisation et de Sécurisation Apache2 && Nginx
 {Style.RESET_ALL}    '''
 
     os.system('cls' if os.name == 'nt' else 'clear')

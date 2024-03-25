@@ -9,6 +9,34 @@ class ApacheConfigGenerator:
         self.config_directory = config_directory
         self.config_data = self.read_config()
 
+
+    def disable_web_service(self, service_name):
+        try:
+            subprocess.run(['sudo', 'systemctl', 'stop', service_name])
+            subprocess.run(['sudo', 'systemctl', 'disable', service_name])
+            print(f"Web service {service_name} stopped and disabled successfully.")
+        except Exception as e:
+            print(f"Error disabling web service {service_name}: {e}")
+
+
+    def replace_boolean_values(self):
+        try:
+            config_files = os.listdir(self.config_directory)
+            for config_file in config_files:
+                config_file_path = os.path.join(self.config_directory, config_file)
+                with open(config_file_path, 'r') as file:
+                    config_content = file.read()
+                # Remplacer les valeurs True par On
+                config_content = config_content.replace('True', 'On')
+                # Remplacer les valeurs False par Off
+                config_content = config_content.replace('False', 'Off')
+                with open(config_file_path, 'w') as file:
+                    file.write(config_content)
+            print("Boolean values replaced in all configuration files.")
+        except Exception as e:
+            print(f"Error replacing boolean values in configuration files: {e}")
+
+
     def read_config(self):
         try:
             with open(self.yaml_file_path, 'r') as file:
@@ -55,6 +83,7 @@ class ApacheConfigGenerator:
 ###################################################################################
     def generate_apache_config(self):
         if self.config_data:
+            self.disable_web_service('nginx')
             self.create_config_directory()
             self.generate_general_config()
             self.generate_module_config()
@@ -62,6 +91,7 @@ class ApacheConfigGenerator:
             self.generate_security_config()
             self.restart_apache()
             self.include_general_config()
+            self.replace_boolean_values()
 
     def create_config_directory(self):
         try:

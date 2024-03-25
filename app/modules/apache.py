@@ -97,7 +97,7 @@ Rules:
 
 ##############################################
           #Creation du YAML File
-        with open(f"{profile}_config.yaml", "w") as file:
+        with open(f"Apache_{profile}_config.yaml", "w") as file:
             file.write(self.base_template)
 
 
@@ -306,18 +306,23 @@ Rules:
 # Exemple d'utilisation
 def start():
     generator = ConfigGenerator()
+    def sortie(choixx):
+        print(f"Configuration generate in folder templates with file name: Apache_{choixx}_config.yaml: ")
     def choix_config():
         print("\nThree types of profiles exist: high, low, moderate\n \n1 - high: Concerns servers with good hardware configuration \n2 - low: Concerns servers with low hardware configuration \n3 - moderate: It's a moderatee of configuration between the first option and the second \n")
         profile_var = input("Choose your configuration profil ( 1 - 3): ")
         if profile_var == "1":
             chx = "high"
+            sortie(chx)
         elif profile_var == "2":
             chx = "low"
+            sortie(chx)
         elif profile_var == "3":
             chx = "moderate"
+            sortie(chx)
         else:
             print("Please choose between 1 and 3")
         return generator.generate_config(chx)
     choix_config()
-    print(f"Configuration generate in folder: {rep}")
+
     
