@@ -308,8 +308,9 @@ def start():
     generator = ConfigGenerator()
     def sortie(choixx):
         print(f"Configuration generate in folder templates with file name: Apache_{choixx}_config.yaml: ")
+        print("NB: Please copy the name file before using the generate config script")
     def choix_config():
-        print("\nThree types of profiles exist: high, low, moderate\n \n1 - high: Concerns servers with good hardware configuration \n2 - low: Concerns servers with low hardware configuration \n3 - moderate: It's a moderatee of configuration between the first option and the second \n")
+        print("\nThree types of profiles exist: high, low, moderate\n \n1 - high: (>=16GB RAM ; Octa-Core))\n2 - low: (>=2GB Ram ; Dual-Core)) \n3 - moderate: (>=4GB RAM ; Quad-Core  )) \n")
         profile_var = input("Choose your configuration profil ( 1 - 3): ")
         if profile_var == "1":
             chx = "high"

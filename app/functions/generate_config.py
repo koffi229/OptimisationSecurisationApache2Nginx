@@ -142,7 +142,7 @@ TraceEnable {TRACE_ENABLE}
 
         with open(os.path.join(self.config_directory, 'general_config.conf'), 'w') as file:
             file.write(general_config)
-            print("Fichier general_config.conf généré")
+            print("Generated general_config.conf file")
 
     def generate_module_config(self):
         modules = self.config_data.get('Modules', {})
@@ -190,7 +190,7 @@ TraceEnable {TRACE_ENABLE}
 )
 
         self.write_config_to_file(mpm_config, 'mpm_config.conf')
-        print("Fichier mpm_config.conf généré")
+        print("mpm_config.conf file generated")
 
     #def generate_php_config(self):
         #php_config_template = """
@@ -315,23 +315,23 @@ TraceEnable {TRACE_ENABLE}
     def activate_module(self, module):
         try:
             subprocess.run(['sudo', 'a2enmod', module])
-            print(f"Module {module} activé avec succès.")
+            print(f"Module {module} successfully activated.")
         except Exception as e:
-            print(f"Erreur lors de l'activation du module {module} : {e}")
+            print(f"Error during module activation {module} : {e}")
 
     def deactivate_module(self, module):
         try:
             subprocess.run(['sudo', 'a2dismod', module])
             print(f"Module {module} désactivé avec succès.")
         except Exception as e:
-            print(f"Erreur lors de la désactivation du module {module} : {e}")
+            print(f"Error during module deactivation {module} : {e}")
 
     def install_module(self, module):
         try:
             subprocess.run(['sudo', 'a2enmod', module])
             print(f"Module {module} activé avec succès.")
         except Exception as e:
-            print(f"Erreur lors de l'activation du module {module} : {e}")
+            print(f"Error during module activation {module} : {e}")
 
     def install_required_modules(self):
         required_modules = self.config_data.get('Required_Modules', [])

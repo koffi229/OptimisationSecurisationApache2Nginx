@@ -13,24 +13,24 @@ class NginxConfigGenerator:
             with open(self.yaml_file_path, 'r') as file:
                 return yaml.safe_load(file)
         except FileNotFoundError:
-            print(f"Le fichier YAML n'a pas été trouvé à l'emplacement spécifié : {self.yaml_file_path}")
+            print(f"YAML file not found at specified location : {self.yaml_file_path}")
             return None
         except yaml.YAMLError as e:
-            print(f"Erreur de syntaxe YAML dans le fichier : {e}")
+            print(f"YAML syntax error in file : {e}")
             return None
         
     def disable_other_services(self):
         try:
             # Arrêter Apache si activé
             subprocess.run(['sudo', 'systemctl', 'stop', 'apache2'])
-            print("Apache arrêté avec succès.")
+            print("Apache successfully stopped.")
         except Exception as e:
-            print(f"Erreur lors de l'arrêt d'Apache : {e}")
+            print(f"Error when stopping Apache : {e}")
 
 
     ########################################################
     def modify_config_options(self):
-        print("Options de configuration actuelles :")
+        print("Current configuration options :")
         for section, options in self.config_data.items():
             print(f"\nSection: {section}")
             for key, value in options.items():
@@ -39,10 +39,10 @@ class NginxConfigGenerator:
             modify = input(f"\nWould you want to modify the option of this section {section} ? (y/n) : ").lower()
             if modify == 'o' or modify == 'y':
                 for key in options.keys():
-                    new_value = input(f"Nouvelle valeur pour {key} : ")
+                    new_value = input(f"New value for {key} : ")
                     self.config_data[section][key] = new_value
 
-        print("\nOptions de configuration mises à jour avec succès.")
+        print("\nConfiguration options successfully updated.")
 
     ########################################################
 
@@ -63,13 +63,13 @@ class NginxConfigGenerator:
                 shutil.copy(nginx_conf_path, nginx_conf_backup_path)
                 print("Sauvegarde de nginx.conf create with success.")
             except Exception as e:
-                print(f"Erreur lors de la création de la sauvegarde de nginx.conf : {e}")
+                print(f"Error creating backup of nginx.conf : {e}")
                 return
 
             nginx_conf_content = self.format_nginx_config()
             with open(nginx_conf_path, 'w') as nginx_conf:
                 nginx_conf.write(nginx_conf_content)
-                print("Configuration Nginx mise à jour avec succès.")
+                print("Nginx configuration successfully updated.")
 
             self.parse_nginx_conf(nginx_conf_path)
             self.restart_nginx()
@@ -194,20 +194,20 @@ include /etc/nginx/generated_configs//*.conf;
             with open(nginx_conf_path, 'w') as nginx_conf_file:
                 nginx_conf_file.write(nginx_conf_content)
 
-            print("Fichier nginx.conf analysé et modifié avec succès.")
+            print("nginx.conf file analyzed and modified successfully")
         except Exception as e:
-            print(f"Erreur lors de l'analyse et de la modification du fichier nginx.conf : {e}")
+            print(f"Error analyzing and modifying nginx.conf : {e}")
 
     def restart_nginx(self):
         try:
             subprocess.run(['sudo', 'systemctl', 'restart', 'nginx'])
-            print("Nginx redémarré avec succès.")
+            print("Nginx successfully restarted.")
         except Exception as e:
-            print(f"Erreur lors du redémarrage de Nginx : {e}")
+            print(f"Nginx restart error : {e}")
 
 def start_generate():
     path_yaml = input("Please enter the name of the yaml file: ")
-    modify_options = input("Voulez-vous modifier les options de configuration avant de générer les configurations ? (y/n) : ").lower()
+    modify_options = input("Do you want to modify the configuration options before generating the configurations? (y/n) : ").lower()
     modify_options = modify_options == 'o' or modify_options == 'y'
     generator = NginxConfigGenerator(path_yaml)
     generator.generate_nginx_config(modify_options)
