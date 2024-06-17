@@ -353,6 +353,7 @@ def start():
     generator = ConfigGenerator()
     def sortie(choice):
         print(f"Configuration generate in folder templates with name : Nginx_{choice}_config.yaml")
+        print("NB: Please copy the name file before using the generate config script")
     def choix_config():
         print("\nTwo types of profiles exist: high, moderate\n \n1 - high: (>=8 GB ram ; Octa-Core)) \n2 - moderate: (>=4 GB Ram ; Quad-Core))\n")
         profile_var = input("Choose your configuration profil (1 - 2): ")
