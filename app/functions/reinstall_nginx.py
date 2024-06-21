@@ -19,33 +19,33 @@ def run_command(command):
             raise subprocess.CalledProcessError(proc.returncode, command, output=stdout, stderr=stderr)
         return stdout.decode('utf-8'), stderr.decode('utf-8')
     except subprocess.CalledProcessError as e:
-        print(f"Une erreur est survenue lors de l'exécution de {command}: {e.stderr.decode('utf-8')}")
+        print(f"An error has occurred while running {command}: {e.stderr.decode('utf-8')}")
         sys.exit(1)
 
 def print_status(message):
     print(f"\n{message}")
 
 def start_reinstall():
-    print_status("Arrêt du service Nginx...")
+    print_status("Nginx service stopped...")
     run_command(['sudo', 'systemctl', 'stop', 'nginx'])
-    print_status("Service Nginx arrêté.")
+    print_status("Nginx service stopped.")
 
-    print_status("Désinstallation de Nginx en cours...")
+    print_status("Uninstalling Nginx in progress...")
     run_command(['sudo', 'apt-get', 'purge', 'nginx', '-y'])
-    print_status("Désinstallation terminée.")
+    print_status("Uninstall complete.")
 
-    print_status("Mise à jour du système...")
+    print_status("System update...")
     run_command(['sudo', 'apt-get', 'update'])
-    print_status("Mise à jour terminée.")
+    print_status("Update complete.")
 
-    print_status("Suppression des dépendances non utilisées...")
+    print_status("Remove unused dependencies...")
     run_command(['sudo', 'apt-get', 'autoremove', '-y'])
-    print_status("Suppression terminée.")
+    print_status("Deletion complete.")
 
-    print_status("Réinstallation de Nginx en cours...")
+    print_status("Nginx reinstallation in progress...")
     run_command(['sudo', 'apt-get', 'install', 'nginx', '-y'])
-    print_status("Réinstallation terminée.")
+    print_status("Reinstallation complete.")
 
-    print("Nginx a été réinstallé avec succès!")
+    print("Nginx has been successfully reinstalled!")
 
 
