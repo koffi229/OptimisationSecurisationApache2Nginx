@@ -49,4 +49,4 @@ kidjocharbel@gmail.com || +229 56911211
 
 auteur : Frazer777
 
-Nos sincères remerciements au Dr Lionel METONGNON pour son encadrement et son coaching tout au long du projet
+Nos sincères remerciements au Dr Lionel METONGNON et à l'Ing Hored SOSSOU pour leurs encadrements et leurs coaching tout au long du projet
